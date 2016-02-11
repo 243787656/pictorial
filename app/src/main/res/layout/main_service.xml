@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bleyl.pictorial.views.WrapperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ContentDescription"
+    android:id="@+id/wrapper_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.bleyl.pictorial.views.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="24dp"
+        android:textColor="@android:color/white"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:id="@+id/view"
+        android:background="#3f000000"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_white_24dp"
+            android:background="?android:selectableItemBackground"
+            android:layout_gravity="center_vertical"
+            android:padding="16dp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <com.bleyl.pictorial.views.FractionView
+            android:id="@+id/fraction_view"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+</com.bleyl.pictorial.views.WrapperLayout>
