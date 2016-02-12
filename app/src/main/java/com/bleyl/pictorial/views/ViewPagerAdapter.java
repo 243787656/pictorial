@@ -29,6 +29,8 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
+    public static String TAG = ViewPagerAdapter.class.getSimpleName();
+
     @Bind(R.id.gif) GifVideoView mGifVideoView;
     @Bind(R.id.image) PhotoView mPhotoView;
     @Bind(R.id.progress_bar) ProgressBar mProgressBar;
@@ -77,7 +79,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                Log.d("loadImage failure", failReason.getType().toString());
+                Log.d(TAG, failReason.getType().toString());
                 mListener.showError("Failed loading image: " + failReason.getType().toString());
                 mProgressBar.setVisibility(View.GONE);
             }
@@ -114,6 +116,21 @@ public class ViewPagerAdapter extends PagerAdapter {
                             }
                         }
                     });
+                }
+            });
+            mGifVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    switch (what){
+                        case MediaPlayer.MEDIA_ERROR_UNKNOWN:
+                            Log.e(TAG, "Unknown media playback error");
+                            mListener.showError("Unknown media playback error");
+                            break;
+                        case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
+                            Log.e(TAG, "Server connection died");
+                            mListener.showError("Unknown media playback error");
+                    }
+                    return true;
                 }
             });
         }
