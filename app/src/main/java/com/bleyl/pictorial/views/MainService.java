@@ -2,13 +2,10 @@ package com.bleyl.pictorial.views;
 
 import android.app.Notification;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +16,9 @@ import android.widget.TextView;
 import com.bleyl.pictorial.R;
 import com.bleyl.pictorial.models.Image;
 import com.bleyl.pictorial.presenters.MainPresenter;
+import com.bleyl.pictorial.views.layouts.ViewPager;
+import com.bleyl.pictorial.views.layouts.WrapperLayout;
+import com.bleyl.pictorial.views.widgets.FractionView;
 
 import java.util.List;
 
@@ -38,7 +38,6 @@ public class MainService extends Service implements MainMvpView, ViewPagerListen
 
     @Override
     public int onStartCommand (Intent intent, int flags, int startId) {
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter("STOP_SERVICE"));
         startForegroundService();
         mPresenter.loadUrl(intent.getStringExtra("URL"));
         return START_NOT_STICKY;
@@ -116,17 +115,9 @@ public class MainService extends Service implements MainMvpView, ViewPagerListen
         return this;
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            stopSelf();
-        }
-    };
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         mPresenter.detachView();
         if (mLayout != null) {
             mWindowManager.removeView(mLayout);
