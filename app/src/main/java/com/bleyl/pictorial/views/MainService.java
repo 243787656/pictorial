@@ -105,8 +105,8 @@ public class MainService extends Service implements MainMvpView, ViewPagerListen
     }
 
     @Override
-    public void showError(String string) {
-        mErrorText.setText(string);
+    public void showError(String error) {
+        mErrorText.setText(error);
         mErrorText.setVisibility(View.VISIBLE);
     }
 
