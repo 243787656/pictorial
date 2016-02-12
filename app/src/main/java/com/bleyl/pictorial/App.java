@@ -3,9 +3,9 @@ package com.bleyl.pictorial;
 import android.app.Application;
 import android.content.Context;
 
-import com.bleyl.pictorial.models.gfycat.GfycatService;
-import com.bleyl.pictorial.models.gfycat.GfycatUploadService;
-import com.bleyl.pictorial.models.imgur.ImgurService;
+import com.bleyl.pictorial.model.gfycat.GfycatService;
+import com.bleyl.pictorial.model.gfycat.GfycatUploadService;
+import com.bleyl.pictorial.model.imgur.ImgurService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
