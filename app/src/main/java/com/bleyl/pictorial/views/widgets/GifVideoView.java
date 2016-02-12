@@ -1,4 +1,4 @@
-package com.bleyl.pictorial.views;
+package com.bleyl.pictorial.views.widgets;
 /*
  * Copyright (C) 2006 The Android Open Source Project
  *

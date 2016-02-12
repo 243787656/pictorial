@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import com.bleyl.pictorial.R;
 import com.bleyl.pictorial.models.Image;
 import com.bleyl.pictorial.utils.LoaderUtil;
+import com.bleyl.pictorial.views.widgets.GifVideoView;
 
 import java.util.List;
 

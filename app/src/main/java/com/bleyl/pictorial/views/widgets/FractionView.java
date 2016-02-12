@@ -1,4 +1,4 @@
-package com.bleyl.pictorial.views;
+package com.bleyl.pictorial.views.widgets;
 
 import android.content.Context;
 import android.graphics.Canvas;
