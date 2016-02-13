@@ -217,7 +217,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".view.MainService"
+        <service android:name=".view.ViewerService"
                  android:launchMode="singleTask"/>
 
     </application>

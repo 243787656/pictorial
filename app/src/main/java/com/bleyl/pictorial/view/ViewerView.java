@@ -6,7 +6,7 @@ import com.bleyl.pictorial.model.Image;
 
 import java.util.List;
 
-public interface MainMvpView {
+public interface ViewerView {
 
     Context getContext();
 

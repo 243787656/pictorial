@@ -9,7 +9,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this, MainService.class);
+        Intent intent = new Intent(this, ViewerService.class);
         intent.putExtra("URL", getIntent().getDataString());
         startService(intent);
         finish();
