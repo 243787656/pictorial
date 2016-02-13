@@ -23,6 +23,7 @@ import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainPresenter implements Presenter<MainMvpView> {
 
@@ -65,7 +66,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getImgurService().getImageDetails(LinkUtil.getImgurId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -91,7 +92,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getImgurService().getAlbumImages(LinkUtil.getImgurAlbumId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<AlbumResponse>() {
                     @Override
                     public void onCompleted() {
@@ -124,7 +125,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getImgurService().getGalleryDetails(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GalleryResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -154,7 +155,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getImgurService().getGalleryAlbum(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<AlbumResponse>() {
                     @Override
                     public void onCompleted() {
@@ -184,7 +185,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getImgurService().getGalleryImage(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -210,7 +211,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getGfycatService().getMetadata(LinkUtil.getGfycatId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<MetadataResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -236,7 +237,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getGfycatService().checkUrl(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
@@ -266,7 +267,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
         App application = App.get(mMainMvpView.getContext());
         mSubscription = application.getGfycatUploadService().uploadGif(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(application.defaultSubscribeScheduler())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {

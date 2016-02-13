@@ -20,7 +20,6 @@ public class App extends Application {
     private ImgurService mImgurService;
     private GfycatService mGfycatService;
     private GfycatUploadService mGfycatUploadService;
-    private Scheduler mDefaultSubscribeScheduler;
 
     public static App get(Context context) {
         return (App) context.getApplicationContext();
@@ -61,12 +60,5 @@ public class App extends Application {
             mGfycatUploadService = GfycatUploadService.Factory.create();
         }
         return mGfycatUploadService;
-    }
-
-    public Scheduler defaultSubscribeScheduler() {
-        if (mDefaultSubscribeScheduler == null) {
-            mDefaultSubscribeScheduler = Schedulers.io();
-        }
-        return mDefaultSubscribeScheduler;
     }
 }
