@@ -2,7 +2,9 @@ package com.bleyl.pictorial.presenter;
 
 import android.util.Log;
 
-import com.bleyl.pictorial.App;
+import com.bleyl.pictorial.model.gfycat.GfycatClient;
+import com.bleyl.pictorial.model.gfycat.GfycatUploadClient;
+import com.bleyl.pictorial.model.imgur.ImgurClient;
 import com.bleyl.pictorial.utils.LinkUtil;
 import com.bleyl.pictorial.model.DirectImage;
 import com.bleyl.pictorial.model.Image;
@@ -61,10 +63,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadImgurImage(String url) {
-        Log.d(TAG, "Load Imgur image", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getImgurService().getImageDetails(LinkUtil.getImgurId(url))
+        mSubscription = ImgurClient.getService().getImageDetails(LinkUtil.getImgurId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
@@ -87,10 +87,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadImgurAlbum(String url) {
-        Log.d(TAG, "Load Imgur album", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getImgurService().getAlbumImages(LinkUtil.getImgurAlbumId(url))
+        mSubscription = ImgurClient.getService().getAlbumImages(LinkUtil.getImgurAlbumId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<AlbumResponse>() {
@@ -120,10 +118,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadImgurGallery(final String url) {
-        Log.d(TAG, "Get gallery details", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getImgurService().getGalleryDetails(LinkUtil.getImgurGalleryId(url))
+        mSubscription = ImgurClient.getService().getGalleryDetails(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GalleryResponse>() {
@@ -150,10 +146,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadImgurGalleryAlbum(String url) {
-        Log.d(TAG, "Load gallery album", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getImgurService().getGalleryAlbum(LinkUtil.getImgurGalleryId(url))
+        mSubscription = ImgurClient.getService().getGalleryAlbum(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<AlbumResponse>() {
@@ -180,10 +174,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadImgurGalleryImage(String url) {
-        Log.d(TAG, "Get gallery details", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getImgurService().getGalleryImage(LinkUtil.getImgurGalleryId(url))
+        mSubscription = ImgurClient.getService().getGalleryImage(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
@@ -206,10 +198,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadGfycat(String url) {
-        Log.d(TAG, "Get gallery details", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getGfycatService().getMetadata(LinkUtil.getGfycatId(url))
+        mSubscription = GfycatClient.getService().getMetadata(LinkUtil.getGfycatId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<MetadataResponse>() {
@@ -232,10 +222,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadGif(final String url) {
-        Log.d(TAG, "Load direct gif", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getGfycatService().checkUrl(LinkUtil.getGfycatCompatibleUrl(url))
+        mSubscription = GfycatClient.getService().checkUrl(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
@@ -262,10 +250,8 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void convertAndLoadGif(String url) {
-        Log.d(TAG, "Upload gif to Gfycat", null);
         if (mSubscription != null) mSubscription.unsubscribe();
-        App application = App.get(mView.getContext());
-        mSubscription = application.getGfycatUploadService().uploadGif(LinkUtil.getGfycatCompatibleUrl(url))
+        mSubscription = GfycatUploadClient.getService().uploadGif(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
@@ -290,7 +276,6 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
     }
 
     public void loadImage(String url) {
-        Log.d(TAG, "Load direct image", null);
         mImageList.add(new DirectImage(url));
         mView.showImages(mImageList);
     }
