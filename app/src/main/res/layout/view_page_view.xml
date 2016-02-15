@@ -28,11 +28,10 @@
         android:visibility="gone"
         android:layout_marginTop="?android:attr/actionBarSize">
 
-        <com.bleyl.pictorial.views.GifVideoView
+        <com.bleyl.pictorial.view.widgets.GifVideoView
             android:id="@+id/gif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             android:layout_gravity="center"/>
 
     </FrameLayout>
