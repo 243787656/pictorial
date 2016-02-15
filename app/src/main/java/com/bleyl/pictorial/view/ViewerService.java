@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bleyl.pictorial.R;
 import com.bleyl.pictorial.model.Image;
-import com.bleyl.pictorial.presenter.ViewerPresenterImpl;
+import com.bleyl.pictorial.presenter.ViewerPresenter;
 import com.bleyl.pictorial.view.layouts.ViewPager;
 import com.bleyl.pictorial.view.layouts.WrapperLayout;
 import com.bleyl.pictorial.view.widgets.FractionView;
@@ -32,7 +32,7 @@ public class ViewerService extends Service implements ViewerView, ViewPagerListe
     @Bind(R.id.error_text) TextView mErrorText;
     @Bind(R.id.fraction_view) FractionView mFractionView;
 
-    private ViewerPresenterImpl mPresenter;
+    private ViewerPresenter mPresenter;
     private WrapperLayout mLayout;
     private WindowManager mWindowManager;
 
@@ -46,7 +46,7 @@ public class ViewerService extends Service implements ViewerView, ViewPagerListe
     @Override
     public void onCreate() {
         super.onCreate();
-        mPresenter = new ViewerPresenterImpl();
+        mPresenter = new ViewerPresenter();
         mPresenter.attachView(this);
         mLayout = (WrapperLayout) LayoutInflater.from(this).inflate(R.layout.main_service, new LinearLayout(this), false);
         ButterKnife.bind(this, mLayout);

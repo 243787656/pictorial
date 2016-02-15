@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.bleyl.pictorial.model.imgur.ImgurAlbum;
 
-public class AlbumResponse {
+public class AlbumResponse extends BaseResponse {
 
     @Nullable
     public ImgurAlbum data;

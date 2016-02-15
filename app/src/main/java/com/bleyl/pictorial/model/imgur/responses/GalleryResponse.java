@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.bleyl.pictorial.model.imgur.ImgurGallery;
 
-public class GalleryResponse {
+public class GalleryResponse extends BaseResponse {
 
     @Nullable
     public ImgurGallery data;

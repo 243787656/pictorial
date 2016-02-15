@@ -10,7 +10,6 @@ import com.bleyl.pictorial.model.DirectImage;
 import com.bleyl.pictorial.model.Image;
 import com.bleyl.pictorial.model.gfycat.GfyItem;
 import com.bleyl.pictorial.model.gfycat.responses.MetadataResponse;
-import com.bleyl.pictorial.model.imgur.ImgurGallery;
 import com.bleyl.pictorial.model.imgur.responses.AlbumResponse;
 import com.bleyl.pictorial.model.imgur.responses.GalleryResponse;
 import com.bleyl.pictorial.model.imgur.responses.ImageResponse;
@@ -27,9 +26,9 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ViewerPresenterImpl implements Presenter<ViewerView> {
+public class ViewerPresenter implements Presenter<ViewerView> {
 
-    public static String TAG = ViewerPresenterImpl.class.getSimpleName();
+    public static String TAG = ViewerPresenter.class.getSimpleName();
 
     private ViewerView mView;
     private Subscription mSubscription;
@@ -76,11 +75,11 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
 
                     @Override
                     public void onSuccess(ImageResponse response) {
-                        if (response.data != null) {
+                        if (response.data != null && response.success) {
                             mImageList.add(response.data);
                             mView.showImages(mImageList);
                         } else {
-                            onError(new Throwable());
+                            mView.showError("Error loading Image");
                         }
                     }
                 });
@@ -108,10 +107,10 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
 
                     @Override
                     public void onNext(AlbumResponse response) {
-                        if (response.data != null) {
+                        if (response.data != null && response.success) {
                             mImageList.addAll(response.data.getAlbumImages());
                         } else {
-                            onError(new Throwable());
+                            mView.showError("Error loading album");
                         }
                     }
                 });
@@ -131,15 +130,14 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
 
                     @Override
                     public void onSuccess(GalleryResponse response) {
-                        ImgurGallery gallery = response.data;
-                        if (gallery != null) {
-                            if (gallery.isAlbum()) {
+                        if (response.data != null && response.success) {
+                            if (response.data.isAlbum()) {
                                 loadImgurGalleryAlbum(url);
                             } else {
                                 loadImgurGalleryImage(url);
                             }
                         } else {
-                            onError(new Throwable());
+                            mView.showError("Error getting gallery details");
                         }
                     }
                 });
@@ -164,10 +162,10 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
 
                     @Override
                     public void onNext(AlbumResponse response) {
-                        if (response.data != null) {
+                        if (response.data != null && response.success) {
                             mImageList.addAll(response.data.getAlbumImages());
                         } else {
-                            onError(new Throwable());
+                            mView.showError("Error loading gallery album");
                         }
                     }
                 });
@@ -187,11 +185,11 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
 
                     @Override
                     public void onSuccess(ImageResponse response) {
-                        if (response.data != null) {
+                        if (response.data != null && response.success) {
                             mImageList.add(response.data);
                             mView.showImages(mImageList);
                         } else {
-                            onError(new Throwable());
+                            mView.showError("Error loading gallery image");
                         }
                     }
                 });
@@ -211,11 +209,11 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
 
                     @Override
                     public void onSuccess(MetadataResponse response) {
-                        if (response != null) {
+                        if (response.getGfyItem() != null && response.getGfyItem().getMP4Link() != null) {
                             mImageList.add(response.getGfyItem());
                             mView.showImages(mImageList);
                         }  else {
-                            onError(new Throwable());
+                            mView.showError("Error loading gfycat");
                         }
                     }
                 });
@@ -243,7 +241,7 @@ public class ViewerPresenterImpl implements Presenter<ViewerView> {
                                 convertAndLoadGif(url);
                             }
                         }  else {
-                            onError(new Throwable());
+                            mView.showError("Error checking gfycat url");
                         }
                     }
                 });
