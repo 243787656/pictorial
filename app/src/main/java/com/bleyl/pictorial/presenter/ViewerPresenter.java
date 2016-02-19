@@ -1,7 +1,5 @@
 package com.bleyl.pictorial.presenter;
 
-import android.util.Log;
-
 import com.bleyl.pictorial.model.gfycat.GfycatClient;
 import com.bleyl.pictorial.model.gfycat.GfycatUploadClient;
 import com.bleyl.pictorial.model.imgur.ImgurClient;
@@ -13,13 +11,11 @@ import com.bleyl.pictorial.model.gfycat.responses.MetadataResponse;
 import com.bleyl.pictorial.model.imgur.responses.AlbumResponse;
 import com.bleyl.pictorial.model.imgur.responses.GalleryResponse;
 import com.bleyl.pictorial.model.imgur.responses.ImageResponse;
-import com.bleyl.pictorial.utils.NetworkUtil;
 import com.bleyl.pictorial.view.ViewerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.adapter.rxjava.HttpException;
 import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.Subscription;
@@ -27,8 +23,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class ViewerPresenter implements Presenter<ViewerView> {
-
-    public static String TAG = ViewerPresenter.class.getSimpleName();
 
     private ViewerView mView;
     private Subscription mSubscription;
@@ -46,18 +40,14 @@ public class ViewerPresenter implements Presenter<ViewerView> {
     }
 
     public void loadUrl(String url) {
-        if (NetworkUtil.isOnline(mView.getContext())) {
-            switch (LinkUtil.getLinkType(url)) {
-                case IMGUR_GALLERY: loadImgurGallery(url); break;
-                case IMGUR_ALBUM: loadImgurAlbum(url); break;
-                case IMGUR_IMAGE: loadImgurImage(url); break;
-                case GFYCAT: loadGfycat(url); break;
-                case DIRECT_GIF: loadGif(url); break;
-                case DIRECT_IMAGE: loadImage(url); break;
-                case NONE: mView.showError("Link not supported"); break;
-            }
-        } else {
-            mView.showError("No internet connection");
+        switch (LinkUtil.getLinkType(url)) {
+            case IMGUR_GALLERY: loadImgurGallery(url); break;
+            case IMGUR_ALBUM: loadImgurAlbum(url); break;
+            case IMGUR_IMAGE: loadImgurImage(url); break;
+            case GFYCAT: loadGfycat(url); break;
+            case DIRECT_GIF: loadGif(url); break;
+            case DIRECT_IMAGE: loadImage(url); break;
+            case NONE: mView.showError("Link not supported"); break;
         }
     }
 
@@ -69,7 +59,6 @@ public class ViewerPresenter implements Presenter<ViewerView> {
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error loading Image ", error);
                         mView.showError("Error loading Image " + error);
                     }
 
@@ -98,11 +87,7 @@ public class ViewerPresenter implements Presenter<ViewerView> {
 
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error loading album ", error);
                         mView.showError("Error loading album " + error);
-                        if (error instanceof HttpException) {
-                            Log.e(TAG, ((HttpException) error).response().message(), null);
-                        }
                     }
 
                     @Override
@@ -124,7 +109,6 @@ public class ViewerPresenter implements Presenter<ViewerView> {
                 .subscribe(new SingleSubscriber<GalleryResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error getting gallery details ", error);
                         mView.showError("Error getting gallery details " + error);
                     }
 
@@ -156,7 +140,6 @@ public class ViewerPresenter implements Presenter<ViewerView> {
 
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error loading gallery album ", error);
                         mView.showError("Error loading gallery album " + error);
                     }
 
@@ -179,7 +162,6 @@ public class ViewerPresenter implements Presenter<ViewerView> {
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error loading gallery image ", error);
                         mView.showError("Error loading gallery image " + error);
                     }
 
@@ -203,7 +185,6 @@ public class ViewerPresenter implements Presenter<ViewerView> {
                 .subscribe(new SingleSubscriber<MetadataResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error loading gfycat ", error);
                         mView.showError("Error loading gfycat " + error);
                     }
 
@@ -227,7 +208,6 @@ public class ViewerPresenter implements Presenter<ViewerView> {
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error checking gfycat url ", error);
                         mView.showError("Error checking gfycat url " + error);
                     }
 
@@ -255,7 +235,6 @@ public class ViewerPresenter implements Presenter<ViewerView> {
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error uploading gfycat url ", error);
                         mView.showError("Error uploading gfycat url " + error);
                     }
 

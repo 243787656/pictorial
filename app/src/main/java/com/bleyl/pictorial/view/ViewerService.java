@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -108,6 +109,7 @@ public class ViewerService extends Service implements ViewerView, ViewPagerListe
     public void showError(String error) {
         mErrorText.setText(error);
         mErrorText.setVisibility(View.VISIBLE);
+        Log.e(mPresenter.getClass().getSimpleName(), error);
     }
 
     @Override
