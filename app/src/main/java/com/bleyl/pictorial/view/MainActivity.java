@@ -11,42 +11,47 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 
 import com.bleyl.pictorial.R;
-import com.bleyl.pictorial.utils.PermissionUtil;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements DialogInterface.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) && !PermissionUtil.hasSystemAlertPermission(this)) {
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) && !Settings.canDrawOverlays(this)) {
             setTheme(R.style.AppTheme_Dialog);
-
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle(getString(R.string.missing_permission_title));
-            alertDialog.setMessage(getString(R.string.missing_permission_message));
-            alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            alertDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                @Override
-                @TargetApi(Build.VERSION_CODES.M)
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            alertDialog.create().show();
+            showPermissionDialog();
         } else {
             Intent intent = new Intent(this, ViewerService.class);
             intent.putExtra("URL", getIntent().getDataString());
             startService(intent);
             finish();
+        }
+    }
+
+    public void showPermissionDialog() {
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(R.string.missing_permission_title)
+                .setMessage(R.string.missing_permission_message)
+                .setNegativeButton(android.R.string.cancel, this)
+                .setPositiveButton(android.R.string.ok, this)
+                .create()
+                .show();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_NEGATIVE:
+                finish();
+                break;
+            case DialogInterface.BUTTON_POSITIVE:
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+                finish();
+                break;
         }
     }
 }
