@@ -30,7 +30,7 @@ public class ImgurClient {
         Single<ImageResponse> getImageDetails(@Path("id") String imageId);
 
         @GET("3/album/{id}")
-        Observable<AlbumResponse> getAlbumImages(@Path("id") String albumId);
+        Single<AlbumResponse> getAlbumImages(@Path("id") String albumId);
 
         @GET("3/gallery/{id}")
         Single<GalleryResponse> getGalleryDetails(@Path("id") String galleryId);
@@ -39,7 +39,7 @@ public class ImgurClient {
         Single<ImageResponse> getGalleryImage(@Path("id") String imageId);
 
         @GET("3/gallery/album/{id}")
-        Observable<AlbumResponse> getGalleryAlbum(@Path("id") String albumId);
+        Single<AlbumResponse> getGalleryAlbum(@Path("id") String albumId);
     }
 
     public static ImgurService getService() {

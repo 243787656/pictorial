@@ -16,10 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.SingleSubscriber;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class ViewerPresenter {
 
@@ -52,7 +50,6 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = ImgurClient.getService().getImageDetails(LinkUtil.getImgurId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -61,12 +58,8 @@ public class ViewerPresenter {
 
                     @Override
                     public void onSuccess(ImageResponse response) {
-                        if (response.data != null && response.success) {
-                            imageList.add(response.data);
-                            view.showImages(imageList);
-                        } else {
-                            view.showError("Error loading Image");
-                        }
+                        imageList.add(response.data);
+                        view.showImages(imageList);
                     }
                 });
     }
@@ -75,25 +68,16 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = ImgurClient.getService().getAlbumImages(LinkUtil.getImgurAlbumId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<AlbumResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        view.showImages(imageList);
-                    }
-
+                .subscribe(new SingleSubscriber<AlbumResponse>() {
                     @Override
                     public void onError(Throwable error) {
                         view.showError("Error loading album " + error);
                     }
 
                     @Override
-                    public void onNext(AlbumResponse response) {
-                        if (response.data != null && response.success) {
-                            imageList.addAll(response.data.getAlbumImages());
-                        } else {
-                            view.showError("Error loading album");
-                        }
+                    public void onSuccess(AlbumResponse response) {
+                        imageList.addAll(response.data.getAlbumImages());
+                        view.showImages(imageList);
                     }
                 });
     }
@@ -102,7 +86,6 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = ImgurClient.getService().getGalleryDetails(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GalleryResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -111,14 +94,10 @@ public class ViewerPresenter {
 
                     @Override
                     public void onSuccess(GalleryResponse response) {
-                        if (response.data != null && response.success) {
-                            if (response.data.isAlbum()) {
-                                loadImgurGalleryAlbum(url);
-                            } else {
-                                loadImgurGalleryImage(url);
-                            }
+                        if (response.data.isAlbum()) {
+                            loadImgurGalleryAlbum(url);
                         } else {
-                            view.showError("Error getting gallery details");
+                            loadImgurGalleryImage(url);
                         }
                     }
                 });
@@ -128,25 +107,16 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = ImgurClient.getService().getGalleryAlbum(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<AlbumResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        view.showImages(imageList);
-                    }
-
+                .subscribe(new SingleSubscriber<AlbumResponse>() {
                     @Override
                     public void onError(Throwable error) {
                         view.showError("Error loading gallery album " + error);
                     }
 
                     @Override
-                    public void onNext(AlbumResponse response) {
-                        if (response.data != null && response.success) {
-                            imageList.addAll(response.data.getAlbumImages());
-                        } else {
-                            view.showError("Error loading gallery album");
-                        }
+                    public void onSuccess(AlbumResponse response) {
+                        imageList.addAll(response.data.getAlbumImages());
+                        view.showImages(imageList);
                     }
                 });
     }
@@ -155,7 +125,6 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = ImgurClient.getService().getGalleryImage(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -164,12 +133,8 @@ public class ViewerPresenter {
 
                     @Override
                     public void onSuccess(ImageResponse response) {
-                        if (response.data != null && response.success) {
-                            imageList.add(response.data);
-                            view.showImages(imageList);
-                        } else {
-                            view.showError("Error loading gallery image");
-                        }
+                        imageList.add(response.data);
+                        view.showImages(imageList);
                     }
                 });
     }
@@ -178,7 +143,6 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = GfycatClient.getService().getMetadata(LinkUtil.getGfycatId(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<MetadataResponse>() {
                     @Override
                     public void onError(Throwable error) {
@@ -187,12 +151,8 @@ public class ViewerPresenter {
 
                     @Override
                     public void onSuccess(MetadataResponse response) {
-                        if (response.getGfyItem() != null && response.getGfyItem().getMP4Link() != null) {
-                            imageList.add(response.getGfyItem());
-                            view.showImages(imageList);
-                        }  else {
-                            view.showError("Error loading gfycat");
-                        }
+                        imageList.add(response.getGfyItem());
+                        view.showImages(imageList);
                     }
                 });
     }
@@ -201,7 +161,6 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = GfycatClient.getService().checkUrl(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
@@ -210,15 +169,11 @@ public class ViewerPresenter {
 
                     @Override
                     public void onSuccess(GfyItem gfyItem) {
-                        if (gfyItem != null) {
-                            if (gfyItem.getMP4Link() != null) {
-                                imageList.add(gfyItem);
-                                view.showImages(imageList);
-                            } else {
-                                convertAndLoadGif(url);
-                            }
-                        }  else {
-                            view.showError("Error checking gfycat url");
+                        if (gfyItem.getMP4Link() != null) {
+                            imageList.add(gfyItem);
+                            view.showImages(imageList);
+                        } else {
+                            convertAndLoadGif(url);
                         }
                     }
                 });
@@ -228,7 +183,6 @@ public class ViewerPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = GfycatUploadClient.getService().uploadGif(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
@@ -237,14 +191,8 @@ public class ViewerPresenter {
 
                     @Override
                     public void onSuccess(GfyItem gfyItem) {
-                        if (gfyItem != null) {
-                            if (gfyItem.getMP4Link() != null) {
-                                imageList.add(gfyItem);
-                                view.showImages(imageList);
-                            }
-                        }  else {
-                            onError(new Throwable());
-                        }
+                        imageList.add(gfyItem);
+                        view.showImages(imageList);
                     }
                 });
     }
