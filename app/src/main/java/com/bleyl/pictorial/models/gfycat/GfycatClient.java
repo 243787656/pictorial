@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Single;
+import rx.schedulers.Schedulers;
 
 public class GfycatClient {
 
@@ -33,7 +34,7 @@ public class GfycatClient {
         return new Retrofit.Builder()
                 .baseUrl("http://gfycat.com/cajax/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build()
                 .create(GfycatService.class);
     }

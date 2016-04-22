@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Single;
+import rx.schedulers.Schedulers;
 
 public class GfycatUploadClient {
 
@@ -28,7 +29,7 @@ public class GfycatUploadClient {
         return new Retrofit.Builder()
                 .baseUrl("http://upload.gfycat.com/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build()
                 .create(GfycatUploadService.class);
     }

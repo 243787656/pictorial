@@ -18,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
 import rx.Single;
+import rx.schedulers.Schedulers;
 
 public class ImgurClient {
 
@@ -52,7 +53,7 @@ public class ImgurClient {
         return new Retrofit.Builder()
                 .baseUrl("https://api.imgur.com/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(getClient())
                 .build()
                 .create(ImgurService.class);
