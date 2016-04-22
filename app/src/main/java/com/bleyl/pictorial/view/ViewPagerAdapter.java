@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bleyl.pictorial.R;
 import com.bleyl.pictorial.model.Image;
@@ -23,7 +25,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -31,16 +32,24 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     public static String TAG = ViewPagerAdapter.class.getSimpleName();
 
-    @Bind(R.id.gif) GifVideoView mGifVideoView;
-    @Bind(R.id.image) PhotoView mPhotoView;
-    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
-    @Bind(R.id.gif_frame) FrameLayout mFrameLayout;
-
     private List<Image> mImageList;
     private Context mContext;
     private ViewPagerListener mListener;
     private ImageLoader mImageLoader;
     private DisplayImageOptions mOptions;
+
+    public static class ViewHolder {
+        @Bind(R.id.relative_layout) RelativeLayout mRootLayout;
+        @Bind(R.id.gif) GifVideoView mGifVideoView;
+        @Bind(R.id.error_text) TextView mErrorText;
+        @Bind(R.id.image) PhotoView mPhotoView;
+        @Bind(R.id.progress_bar) ProgressBar mProgressBar;
+        @Bind(R.id.gif_frame) FrameLayout mFrameLayout;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 
     public ViewPagerAdapter(Context context, List<Image> imageList, ViewPagerListener viewPagerListener) {
         mContext = context;
@@ -54,6 +63,23 @@ public class ViewPagerAdapter extends PagerAdapter {
                 .build();
     }
 
+    public View getView(int position, ViewGroup parent) {
+        View layout = LayoutInflater.from(mContext).inflate(R.layout.view_page_view, parent, false);
+        ViewHolder holder = new ViewHolder(layout);
+        if (mImageList.get(position).isAnimated()) {
+            showVideo(mImageList.get(position), holder);
+        } else {
+            showImage(mImageList.get(position), holder);
+        }
+        holder.mRootLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.stopService();
+            }
+        });
+        return layout;
+    }
+
     @Override
     public int getCount() {
         return mImageList.size();
@@ -61,36 +87,29 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup viewGroup, int position) {
-        ViewGroup layout = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.view_page_view, viewGroup, false);
-        ButterKnife.bind(this, layout);
-        if (mImageList.get(position).isAnimated()) {
-            showVideo(position);
-        } else {
-            showImage(position);
-        }
+        View layout = getView(position, viewGroup);
         viewGroup.addView(layout);
         return layout;
     }
 
-    public void showImage(int position) {
-        mImageLoader.displayImage(mImageList.get(position).getLink(), mPhotoView, mOptions, new ImageLoadingListener() {
+    public void showImage(Image image, final ViewHolder holder) {
+        mImageLoader.displayImage(image.getLink(), holder.mPhotoView, mOptions, new ImageLoadingListener() {
             @Override public void onLoadingStarted(String imageUri, View view) {}
             @Override public void onLoadingCancelled(String imageUri, View view) {}
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                Log.d(TAG, failReason.getType().toString());
-                mListener.showError("Failed loading image: " + failReason.getType().toString());
-                mProgressBar.setVisibility(View.GONE);
+                showError(holder.mErrorText, "Failed loading image: " + failReason.getType().toString());
+                holder.mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                mProgressBar.setVisibility(View.GONE);
+                holder.mProgressBar.setVisibility(View.GONE);
             }
         });
-        mPhotoView.setVisibility(View.VISIBLE);
-        mPhotoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+        holder.mPhotoView.setVisibility(View.VISIBLE);
+        holder.mPhotoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
                 mListener.stopService();
@@ -98,47 +117,45 @@ public class ViewPagerAdapter extends PagerAdapter {
         });
     }
 
-    public void showVideo(int position) {
-        if (mImageList.get(position).hasMP4Link()) {
-            mFrameLayout.setVisibility(View.VISIBLE);
-            mGifVideoView.setZOrderOnTop(true);
-            mGifVideoView.start();
-            mGifVideoView.setVideoPath(mImageList.get(position).getMP4Link());
-            mGifVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+    public void showVideo(Image image, final ViewHolder holder) {
+        if (image.hasMP4Link()) {
+            holder.mFrameLayout.setVisibility(View.VISIBLE);
+            holder.mGifVideoView.setZOrderOnTop(true);
+            holder.mGifVideoView.start();
+            holder.mGifVideoView.setVideoPath(image.getMP4Link());
+            holder.mGifVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     mp.setLooping(true);
-                    mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-                        @Override
-                        public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                            if (percent == 100) {
-                                mProgressBar.setVisibility(View.GONE);
-                            }
-                        }
-                    });
+                    holder.mProgressBar.setVisibility(View.GONE);
                 }
             });
-            mGifVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            holder.mGifVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     switch (what) {
                         case MediaPlayer.MEDIA_ERROR_UNKNOWN:
-                            Log.e(TAG, "Unknown media playback error");
-                            mListener.showError("Unknown media playback error");
+                            showError(holder.mErrorText, "Unknown media playback error");
                             break;
                         case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-                            Log.e(TAG, "Server connection died");
-                            mListener.showError("Unknown media playback error");
+                            showError(holder.mErrorText, "Server connection died");
                     }
                     return true;
+                }
+            });
+            holder.mFrameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.stopService();
                 }
             });
         }
     }
 
-    @OnClick({ R.id.gif_frame, R.id.relative_layout })
-    public void closeService() {
-        mListener.stopService();
+    public void showError(TextView errorText, String string) {
+        errorText.setText(string);
+        errorText.setVisibility(View.VISIBLE);
+        Log.e(TAG, string);
     }
 
     @Override
