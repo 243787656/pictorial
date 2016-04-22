@@ -8,56 +8,56 @@ import com.google.gson.annotations.SerializedName;
 public class ImgurImage implements Image {
 
     @SerializedName("animated")
-    private boolean mIsAnimated;
+    private boolean isAnimated;
 
     @SerializedName("size")
-    private long mSize;
+    private long size;
 
     @SerializedName("id")
-    private String mId;
+    private String id;
 
     @SerializedName("title")
-    private String mTitle;
+    private String title;
 
     @SerializedName("description")
-    private String mDescription;
+    private String description;
 
     @SerializedName("link")
-    private String mLink;
+    private String link;
 
     @SerializedName("mp4")
-    private String mMP4Link;
+    private String mp4Link;
 
     @SerializedName("favorite")
-    private boolean mIsFavourite;
+    private boolean isFavourite;
 
     @Override
     public String getLink() {
-        return mLink;
+        return link;
     }
 
     @Override
     public boolean isAnimated() {
-        return mIsAnimated;
+        return isAnimated;
     }
 
     @Override
     public boolean hasMP4Link() {
-        return !TextUtils.isEmpty(mMP4Link);
+        return !TextUtils.isEmpty(mp4Link);
     }
 
     @Override
     public String getMP4Link() {
-        return mMP4Link;
+        return mp4Link;
     }
 
     @Override
     public boolean hasDescription() {
-        return !TextUtils.isEmpty(mDescription);
+        return !TextUtils.isEmpty(description);
     }
 
     @Override
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 }

@@ -23,17 +23,17 @@ import rx.schedulers.Schedulers;
 
 public class ViewerPresenter {
 
-    private ViewerView mView;
-    private Subscription mSubscription;
-    private List<Image> mImageList = new ArrayList<>();
+    private ViewerView view;
+    private Subscription subscription;
+    private List<Image> imageList = new ArrayList<>();
 
     public ViewerPresenter(ViewerView view) {
-        mView = view;
+        this.view = view;
     }
 
     public void detachView() {
-        mView = null;
-        if (mSubscription != null) mSubscription.unsubscribe();
+        view = null;
+        if (subscription != null) subscription.unsubscribe();
     }
 
     public void loadUrl(String url) {
@@ -44,69 +44,69 @@ public class ViewerPresenter {
             case GFYCAT: loadGfycat(url); break;
             case DIRECT_GIF: loadGif(url); break;
             case DIRECT_IMAGE: loadImage(url); break;
-            case NONE: mView.showError("Link not supported"); break;
+            case NONE: view.showError("Link not supported"); break;
         }
     }
 
     public void loadImgurImage(String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = ImgurClient.getService().getImageDetails(LinkUtil.getImgurId(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = ImgurClient.getService().getImageDetails(LinkUtil.getImgurId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error loading Image " + error);
+                        view.showError("Error loading Image " + error);
                     }
 
                     @Override
                     public void onSuccess(ImageResponse response) {
                         if (response.data != null && response.success) {
-                            mImageList.add(response.data);
-                            mView.showImages(mImageList);
+                            imageList.add(response.data);
+                            view.showImages(imageList);
                         } else {
-                            mView.showError("Error loading Image");
+                            view.showError("Error loading Image");
                         }
                     }
                 });
     }
 
     public void loadImgurAlbum(String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = ImgurClient.getService().getAlbumImages(LinkUtil.getImgurAlbumId(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = ImgurClient.getService().getAlbumImages(LinkUtil.getImgurAlbumId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<AlbumResponse>() {
                     @Override
                     public void onCompleted() {
-                        mView.showImages(mImageList);
+                        view.showImages(imageList);
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error loading album " + error);
+                        view.showError("Error loading album " + error);
                     }
 
                     @Override
                     public void onNext(AlbumResponse response) {
                         if (response.data != null && response.success) {
-                            mImageList.addAll(response.data.getAlbumImages());
+                            imageList.addAll(response.data.getAlbumImages());
                         } else {
-                            mView.showError("Error loading album");
+                            view.showError("Error loading album");
                         }
                     }
                 });
     }
 
     public void loadImgurGallery(final String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = ImgurClient.getService().getGalleryDetails(LinkUtil.getImgurGalleryId(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = ImgurClient.getService().getGalleryDetails(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GalleryResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error getting gallery details " + error);
+                        view.showError("Error getting gallery details " + error);
                     }
 
                     @Override
@@ -118,129 +118,129 @@ public class ViewerPresenter {
                                 loadImgurGalleryImage(url);
                             }
                         } else {
-                            mView.showError("Error getting gallery details");
+                            view.showError("Error getting gallery details");
                         }
                     }
                 });
     }
 
     public void loadImgurGalleryAlbum(String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = ImgurClient.getService().getGalleryAlbum(LinkUtil.getImgurGalleryId(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = ImgurClient.getService().getGalleryAlbum(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<AlbumResponse>() {
                     @Override
                     public void onCompleted() {
-                        mView.showImages(mImageList);
+                        view.showImages(imageList);
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error loading gallery album " + error);
+                        view.showError("Error loading gallery album " + error);
                     }
 
                     @Override
                     public void onNext(AlbumResponse response) {
                         if (response.data != null && response.success) {
-                            mImageList.addAll(response.data.getAlbumImages());
+                            imageList.addAll(response.data.getAlbumImages());
                         } else {
-                            mView.showError("Error loading gallery album");
+                            view.showError("Error loading gallery album");
                         }
                     }
                 });
     }
 
     public void loadImgurGalleryImage(String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = ImgurClient.getService().getGalleryImage(LinkUtil.getImgurGalleryId(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = ImgurClient.getService().getGalleryImage(LinkUtil.getImgurGalleryId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error loading gallery image " + error);
+                        view.showError("Error loading gallery image " + error);
                     }
 
                     @Override
                     public void onSuccess(ImageResponse response) {
                         if (response.data != null && response.success) {
-                            mImageList.add(response.data);
-                            mView.showImages(mImageList);
+                            imageList.add(response.data);
+                            view.showImages(imageList);
                         } else {
-                            mView.showError("Error loading gallery image");
+                            view.showError("Error loading gallery image");
                         }
                     }
                 });
     }
 
     public void loadGfycat(String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = GfycatClient.getService().getMetadata(LinkUtil.getGfycatId(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = GfycatClient.getService().getMetadata(LinkUtil.getGfycatId(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<MetadataResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error loading gfycat " + error);
+                        view.showError("Error loading gfycat " + error);
                     }
 
                     @Override
                     public void onSuccess(MetadataResponse response) {
                         if (response.getGfyItem() != null && response.getGfyItem().getMP4Link() != null) {
-                            mImageList.add(response.getGfyItem());
-                            mView.showImages(mImageList);
+                            imageList.add(response.getGfyItem());
+                            view.showImages(imageList);
                         }  else {
-                            mView.showError("Error loading gfycat");
+                            view.showError("Error loading gfycat");
                         }
                     }
                 });
     }
 
     public void loadGif(final String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = GfycatClient.getService().checkUrl(LinkUtil.getGfycatCompatibleUrl(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = GfycatClient.getService().checkUrl(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error checking gfycat url " + error);
+                        view.showError("Error checking gfycat url " + error);
                     }
 
                     @Override
                     public void onSuccess(GfyItem gfyItem) {
                         if (gfyItem != null) {
                             if (gfyItem.getMP4Link() != null) {
-                                mImageList.add(gfyItem);
-                                mView.showImages(mImageList);
+                                imageList.add(gfyItem);
+                                view.showImages(imageList);
                             } else {
                                 convertAndLoadGif(url);
                             }
                         }  else {
-                            mView.showError("Error checking gfycat url");
+                            view.showError("Error checking gfycat url");
                         }
                     }
                 });
     }
 
     public void convertAndLoadGif(String url) {
-        if (mSubscription != null) mSubscription.unsubscribe();
-        mSubscription = GfycatUploadClient.getService().uploadGif(LinkUtil.getGfycatCompatibleUrl(url))
+        if (subscription != null) subscription.unsubscribe();
+        subscription = GfycatUploadClient.getService().uploadGif(LinkUtil.getGfycatCompatibleUrl(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
-                        mView.showError("Error uploading gfycat url " + error);
+                        view.showError("Error uploading gfycat url " + error);
                     }
 
                     @Override
                     public void onSuccess(GfyItem gfyItem) {
                         if (gfyItem != null) {
                             if (gfyItem.getMP4Link() != null) {
-                                mImageList.add(gfyItem);
-                                mView.showImages(mImageList);
+                                imageList.add(gfyItem);
+                                view.showImages(imageList);
                             }
                         }  else {
                             onError(new Throwable());
@@ -250,7 +250,7 @@ public class ViewerPresenter {
     }
 
     public void loadImage(String url) {
-        mImageList.add(new DirectImage(url));
-        mView.showImages(mImageList);
+        imageList.add(new DirectImage(url));
+        view.showImages(imageList);
     }
 }

@@ -9,9 +9,9 @@ import android.view.View;
 
 public class FractionView extends View {
 
-    private Paint mPaint;
-    private int mCurrentNumber;
-    private int mMaxNumber;
+    private Paint paint;
+    private int currentNumber;
+    private int maxNumber;
 
     public FractionView(Context context) {
         super(context);
@@ -29,29 +29,29 @@ public class FractionView extends View {
     }
 
     public void init() {
-        mPaint = new Paint();
-        mPaint.setColor(Color.WHITE);
-        mPaint.setAntiAlias(true);
-        mPaint.setStrokeWidth(4);
-        mPaint.setTextAlign(Paint.Align.CENTER);
+        paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(4);
+        paint.setTextAlign(Paint.Align.CENTER);
         final float scale = getContext().getResources().getDisplayMetrics().density;
-        mPaint.setTextSize((int) (12.0f * scale + 0.5f));
+        paint.setTextSize((int) (12.0f * scale + 0.5f));
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawText(Integer.toString(mCurrentNumber), getWidth() / 2, 30, mPaint);
-        canvas.drawLine(10, getHeight() / 2, getWidth() - 10, getHeight() / 2, mPaint);
-        canvas.drawText(Integer.toString(mMaxNumber), getWidth() / 2, getHeight(), mPaint);
+        canvas.drawText(Integer.toString(currentNumber), getWidth() / 2, 30, paint);
+        canvas.drawLine(10, getHeight() / 2, getWidth() - 10, getHeight() / 2, paint);
+        canvas.drawText(Integer.toString(maxNumber), getWidth() / 2, getHeight(), paint);
     }
 
     public void setCurrentNumber(int number) {
-        mCurrentNumber = number;
+        currentNumber = number;
         invalidate();
     }
 
     public void setMaxNumber(int number) {
-        mMaxNumber = number;
+        maxNumber = number;
         invalidate();
     }
 }

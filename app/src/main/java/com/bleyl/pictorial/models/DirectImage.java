@@ -2,10 +2,10 @@ package com.bleyl.pictorial.models;
 
 public class DirectImage implements Image {
 
-    private String mLink;
+    private String link;
 
     public DirectImage(String link) {
-        mLink = link;
+        this.link = link;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class DirectImage implements Image {
 
     @Override
     public String getLink() {
-        return mLink;
+        return link;
     }
 
     @Override

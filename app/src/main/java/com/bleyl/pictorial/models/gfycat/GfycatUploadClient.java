@@ -9,7 +9,7 @@ import rx.Single;
 
 public class GfycatUploadClient {
 
-    private static GfycatUploadService sGfycatUploadService;
+    private static GfycatUploadService gfycatUploadService;
 
     public interface GfycatUploadService {
 
@@ -18,10 +18,10 @@ public class GfycatUploadClient {
     }
 
     public static GfycatUploadService getService() {
-        if (sGfycatUploadService == null) {
-            sGfycatUploadService = create();
+        if (gfycatUploadService == null) {
+            gfycatUploadService = create();
         }
-        return sGfycatUploadService;
+        return gfycatUploadService;
     }
 
     public static GfycatUploadService create() {

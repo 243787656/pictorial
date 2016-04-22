@@ -21,7 +21,7 @@ import rx.Single;
 
 public class ImgurClient {
 
-    private static ImgurService sImgurService;
+    private static ImgurService imgurService;
 
     public interface ImgurService {
 
@@ -42,10 +42,10 @@ public class ImgurClient {
     }
 
     public static ImgurService getService() {
-        if (sImgurService == null) {
-            sImgurService = create();
+        if (imgurService == null) {
+            imgurService = create();
         }
-        return sImgurService;
+        return imgurService;
     }
 
     public static ImgurService create() {

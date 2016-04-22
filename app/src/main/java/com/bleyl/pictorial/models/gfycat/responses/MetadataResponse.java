@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName;
 public class MetadataResponse {
 
     @SerializedName("gfyItem")
-    private GfyItem mGfyItem;
+    private GfyItem gfyItem;
 
     public GfyItem getGfyItem() {
-        return mGfyItem;
+        return gfyItem;
     }
 }
 

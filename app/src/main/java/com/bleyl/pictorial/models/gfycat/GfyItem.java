@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class GfyItem implements Image {
 
     @SerializedName("mp4Url")
-    private String mMp4Link;
+    private String mp4Link;
 
     @Override
     public boolean hasDescription() {
@@ -35,6 +35,6 @@ public class GfyItem implements Image {
 
     @Override
     public String getMP4Link() {
-        return mMp4Link;
+        return mp4Link;
     }
 }

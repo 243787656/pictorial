@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 public class ImgurGallery {
 
     @SerializedName("is_album")
-    private boolean mIsAlbum;
+    private boolean isAlbum;
 
     public boolean isAlbum() {
-        return mIsAlbum;
+        return isAlbum;
     }
 }

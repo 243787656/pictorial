@@ -27,29 +27,29 @@ import butterknife.OnClick;
 
 public class ViewerService extends Service implements ViewerView, ViewerAdapter.ViewPagerListener {
 
-    @Bind(R.id.view_pager) ViewPager mViewPager;
-    @Bind(R.id.error_text) TextView mErrorText;
-    @Bind(R.id.fraction_view) FractionView mFractionView;
+    @Bind(R.id.view_pager) ViewPager viewPager;
+    @Bind(R.id.error_text) TextView errorText;
+    @Bind(R.id.fraction_view) FractionView fractionView;
 
-    private ViewerPresenter mPresenter;
-    private WrapperLayout mLayout;
-    private WindowManager mWindowManager;
+    private ViewerPresenter presenter;
+    private WrapperLayout layout;
+    private WindowManager windowManager;
 
     @Override
     public int onStartCommand (Intent intent, int flags, int startId) {
         startForegroundService();
-        mPresenter.loadUrl(intent.getStringExtra("URL"));
+        presenter.loadUrl(intent.getStringExtra("URL"));
         return START_NOT_STICKY;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mPresenter = new ViewerPresenter(this);
-        mLayout = (WrapperLayout) LayoutInflater.from(this).inflate(R.layout.main_service, new LinearLayout(this), false);
-        ButterKnife.bind(this, mLayout);
+        presenter = new ViewerPresenter(this);
+        layout = (WrapperLayout) LayoutInflater.from(this).inflate(R.layout.main_service, new LinearLayout(this), false);
+        ButterKnife.bind(this, layout);
 
-        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -57,9 +57,9 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
                 WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 PixelFormat.TRANSLUCENT);
         params.dimAmount = 0.7f;
-        mWindowManager.addView(mLayout, params);
+        windowManager.addView(layout, params);
 
-        mLayout.addOnCloseDialogsListener(new WrapperLayout.OnCloseDialogsListener() {
+        layout.addOnCloseDialogsListener(new WrapperLayout.OnCloseDialogsListener() {
             @Override
             public void onCloseDialogs(WrapperLayout.Reason reason) {
                 stopSelf();
@@ -81,32 +81,32 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
     @Override
     public void showImages(List<Image> imageList) {
         ViewerAdapter adapter = new ViewerAdapter(this, imageList, this);
-        mViewPager.setAdapter(adapter);
-        mViewPager.setOffscreenPageLimit(2);
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
         if (imageList.size() > 1) {
             showAlbumIndicator(imageList);
         }
     }
 
     public void showAlbumIndicator(List<Image> imageList) {
-        mFractionView.setVisibility(View.VISIBLE);
-        mFractionView.setMaxNumber(imageList.size());
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        fractionView.setVisibility(View.VISIBLE);
+        fractionView.setMaxNumber(imageList.size());
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override public void onPageScrollStateChanged(int state) {}
             @Override public void onPageSelected(int position) {}
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mFractionView.setCurrentNumber(position + 1);
+                fractionView.setCurrentNumber(position + 1);
             }
         });
     }
 
     @Override
     public void showError(String error) {
-        mErrorText.setText(error);
-        mErrorText.setVisibility(View.VISIBLE);
-        Log.e(mPresenter.getClass().getSimpleName(), error);
+        errorText.setText(error);
+        errorText.setVisibility(View.VISIBLE);
+        Log.e(presenter.getClass().getSimpleName(), error);
     }
 
     @Override
@@ -117,9 +117,9 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
-        if (mLayout != null) {
-            mWindowManager.removeView(mLayout);
+        presenter.detachView();
+        if (layout != null) {
+            windowManager.removeView(layout);
         }
     }
 

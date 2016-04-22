@@ -7,13 +7,13 @@ import java.util.List;
 public class ImgurAlbum {
 
     @SerializedName("images")
-    private List<ImgurImage> mImageList;
+    private List<ImgurImage> imageList;
 
     public List<ImgurImage> getAlbumImages() {
-        return mImageList;
+        return imageList;
     }
 
     public boolean hasAlbumImages() {
-        return mImageList != null && !mImageList.isEmpty();
+        return imageList != null && !imageList.isEmpty();
     }
 }

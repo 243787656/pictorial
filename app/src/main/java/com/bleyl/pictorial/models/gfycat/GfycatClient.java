@@ -11,7 +11,7 @@ import rx.Single;
 
 public class GfycatClient {
 
-    private static GfycatService sGfycatService;
+    private static GfycatService gfycatService;
 
     public interface GfycatService {
 
@@ -23,10 +23,10 @@ public class GfycatClient {
     }
 
     public static GfycatService getService() {
-        if (sGfycatService == null) {
-            sGfycatService = create();
+        if (gfycatService == null) {
+            gfycatService = create();
         }
-        return sGfycatService;
+        return gfycatService;
     }
 
     public static GfycatService create() {
