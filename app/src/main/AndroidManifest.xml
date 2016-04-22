@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.MainActivity"
+            android:name=".MainActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -217,7 +217,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".view.ViewerService"
+        <service android:name=".ViewerService"
                  android:launchMode="singleTask"/>
 
     </application>

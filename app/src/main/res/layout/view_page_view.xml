@@ -37,7 +37,7 @@
         android:visibility="gone"
         android:layout_marginTop="?android:attr/actionBarSize">
 
-        <com.bleyl.pictorial.view.widgets.GifVideoView
+        <com.bleyl.pictorial.widgets.GifVideoView
             android:id="@+id/gif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
