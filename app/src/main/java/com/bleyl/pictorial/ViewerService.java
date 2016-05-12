@@ -21,15 +21,15 @@ import com.bleyl.pictorial.widgets.FractionView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ViewerService extends Service implements ViewerView, ViewerAdapter.ViewPagerListener {
 
-    @Bind(R.id.view_pager) ViewPager viewPager;
-    @Bind(R.id.error_text) TextView errorText;
-    @Bind(R.id.fraction_view) FractionView fractionView;
+    @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.error_text) TextView errorText;
+    @BindView(R.id.fraction_view) FractionView fractionView;
 
     private ViewerPresenter presenter;
     private WrapperLayout layout;

@@ -22,7 +22,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -38,12 +38,12 @@ public class ViewerAdapter extends PagerAdapter {
     private DisplayImageOptions options;
 
     public static class ViewHolder {
-        @Bind(R.id.relative_layout) RelativeLayout rootLayout;
-        @Bind(R.id.gif) GifVideoView gifVideoView;
-        @Bind(R.id.error_text) TextView errorText;
-        @Bind(R.id.image) PhotoView photoView;
-        @Bind(R.id.progress_bar) ProgressBar progressBar;
-        @Bind(R.id.gif_frame) FrameLayout frameLayout;
+        @BindView(R.id.relative_layout) RelativeLayout rootLayout;
+        @BindView(R.id.gif) GifVideoView gifVideoView;
+        @BindView(R.id.error_text) TextView errorText;
+        @BindView(R.id.image) PhotoView photoView;
+        @BindView(R.id.progress_bar) ProgressBar progressBar;
+        @BindView(R.id.gif_frame) FrameLayout frameLayout;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
