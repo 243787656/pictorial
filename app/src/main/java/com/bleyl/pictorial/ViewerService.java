@@ -36,10 +36,9 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
     private WindowManager windowManager;
 
     @Override
-    public int onStartCommand (Intent intent, int flags, int startId) {
-        startForegroundService();
+    public int onStartCommand(Intent intent, int flags, int startId) {
         presenter.loadUrl(intent.getStringExtra("URL"));
-        return START_NOT_STICKY;
+        return startForegroundService();
     }
 
     @Override
@@ -128,6 +127,6 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
                 .setContentTitle(getString(R.string.app_name))
                 .build();
         startForeground(1, notification);
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 }
