@@ -95,14 +95,14 @@ public class ViewerAdapter extends PagerAdapter {
         return layout;
     }
 
-    public void showImage(Image image, final ViewHolder holder) {
+    public void showImage(final Image image, final ViewHolder holder) {
         imageLoader.displayImage(image.getLink(), holder.photoView, options, new ImageLoadingListener() {
             @Override public void onLoadingStarted(String imageUri, View view) {}
             @Override public void onLoadingCancelled(String imageUri, View view) {}
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                showError(holder.errorText, "Failed loading image: " + failReason.getType().toString());
+                showError(holder.errorText, failReason.getType().toString());
                 holder.progressBar.setVisibility(View.GONE);
             }
 

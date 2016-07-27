@@ -42,7 +42,6 @@ public class ViewerPresenter {
             case GFYCAT: loadGfycat(url); break;
             case DIRECT_GIF: loadGif(url); break;
             case DIRECT_IMAGE: loadImage(url); break;
-            case NONE: view.showError("Link not supported"); break;
         }
     }
 
@@ -53,7 +52,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error loading Image " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
@@ -71,7 +70,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<AlbumResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error loading album " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
@@ -89,7 +88,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<GalleryResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error getting gallery details " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
@@ -110,7 +109,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<AlbumResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error loading gallery album " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
@@ -128,7 +127,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<ImageResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error loading gallery image " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
@@ -146,7 +145,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<MetadataResponse>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error loading gfycat " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
@@ -164,7 +163,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error checking gfycat url " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
@@ -186,7 +185,7 @@ public class ViewerPresenter {
                 .subscribe(new SingleSubscriber<GfyItem>() {
                     @Override
                     public void onError(Throwable error) {
-                        view.showError("Error uploading gfycat url " + error);
+                        view.showError(error.getLocalizedMessage());
                     }
 
                     @Override
