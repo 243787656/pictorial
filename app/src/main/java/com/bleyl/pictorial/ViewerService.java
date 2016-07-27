@@ -5,9 +5,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bleyl.pictorial.models.Image;
 import com.bleyl.pictorial.layouts.ViewPager;
 import com.bleyl.pictorial.layouts.WrapperLayout;
+import com.bleyl.pictorial.utils.IntentUtil;
 import com.bleyl.pictorial.widgets.FractionView;
 
 import java.util.List;
@@ -29,15 +30,18 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
 
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.error_text) TextView errorText;
+    @BindView(R.id.info_texts) LinearLayout linearLayout;
     @BindView(R.id.fraction_view) FractionView fractionView;
 
     private ViewerPresenter presenter;
     private WrapperLayout layout;
     private WindowManager windowManager;
+    private String url;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        presenter.loadUrl(intent.getStringExtra("URL"));
+        url = intent.getStringExtra("URL");
+        presenter.loadUrl(url);
         return startForegroundService();
     }
 
@@ -104,8 +108,16 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
     @Override
     public void showError(String error) {
         errorText.setText(error);
-        errorText.setVisibility(View.VISIBLE);
-        Log.e(presenter.getClass().getSimpleName(), error);
+        linearLayout.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.open_browser_text)
+    public void openUrl() {
+        Intent intent = IntentUtil.getDefaultBrowser(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+        stopSelf();
     }
 
     @Override

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,14 +15,34 @@
         android:indeterminateTint="@android:color/white"
         android:indeterminateTintMode="src_in"/>
 
-    <TextView
-        android:id="@+id/error_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/info_texts"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:layout_centerInParent="true"
-        android:layout_margin="24dp"
-        android:textColor="@android:color/white"
-        android:visibility="gone"/>
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:textColor="@android:color/white"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/open_browser_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:textColor="@android:color/white"
+            android:text="@string/open_browser"
+            app:backgroundTint="@color/buttonColor"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </LinearLayout>
 
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/image"

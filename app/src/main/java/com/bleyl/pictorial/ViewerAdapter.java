@@ -1,19 +1,23 @@
 package com.bleyl.pictorial;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bleyl.pictorial.models.Image;
+import com.bleyl.pictorial.utils.IntentUtil;
 import com.bleyl.pictorial.widgets.GifVideoView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,8 +33,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ViewerAdapter extends PagerAdapter {
 
-    public static String TAG = ViewerAdapter.class.getSimpleName();
-
     private List<Image> imageList;
     private Context context;
     private ViewPagerListener listener;
@@ -40,7 +42,9 @@ public class ViewerAdapter extends PagerAdapter {
     public static class ViewHolder {
         @BindView(R.id.relative_layout) RelativeLayout rootLayout;
         @BindView(R.id.gif) GifVideoView gifVideoView;
+        @BindView(R.id.info_texts) LinearLayout linearLayout;
         @BindView(R.id.error_text) TextView errorText;
+        @BindView(R.id.open_browser_text) Button browserButton;
         @BindView(R.id.image) PhotoView photoView;
         @BindView(R.id.progress_bar) ProgressBar progressBar;
         @BindView(R.id.gif_frame) FrameLayout frameLayout;
@@ -102,7 +106,7 @@ public class ViewerAdapter extends PagerAdapter {
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                showError(holder.errorText, failReason.getType().toString());
+                showError(holder, image, failReason.getType().toString());
                 holder.progressBar.setVisibility(View.GONE);
             }
 
@@ -120,7 +124,7 @@ public class ViewerAdapter extends PagerAdapter {
         });
     }
 
-    public void showVideo(Image image, final ViewHolder holder) {
+    public void showVideo(final Image image, final ViewHolder holder) {
         if (image.hasMP4Link()) {
             holder.frameLayout.setVisibility(View.VISIBLE);
             holder.gifVideoView.setZOrderOnTop(true);
@@ -138,10 +142,10 @@ public class ViewerAdapter extends PagerAdapter {
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     switch (what) {
                         case MediaPlayer.MEDIA_ERROR_UNKNOWN:
-                            showError(holder.errorText, "Unknown media playback error");
+                            showError(holder, image, "Unknown media playback error");
                             break;
                         case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-                            showError(holder.errorText, "Server connection died");
+                            showError(holder, image, "Server connection died");
                     }
                     return true;
                 }
@@ -155,10 +159,19 @@ public class ViewerAdapter extends PagerAdapter {
         }
     }
 
-    public void showError(TextView errorText, String string) {
-        errorText.setText(string);
-        errorText.setVisibility(View.VISIBLE);
-        Log.e(TAG, string);
+    public void showError(ViewHolder holder, final Image image, String string) {
+        holder.errorText.setText(string);
+        holder.linearLayout.setVisibility(View.VISIBLE);
+        holder.browserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = IntentUtil.getDefaultBrowser(context);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(image.getLink()));
+                context.startActivity(intent);
+                listener.stopService();
+            }
+        });
     }
 
     @Override
