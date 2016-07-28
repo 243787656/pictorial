@@ -76,6 +76,27 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
         stopSelf();
     }
 
+    @OnClick({ R.id.browser_button, R.id.main_browser_button })
+    public void openUrl() {
+        Intent intent = IntentUtil.getDefaultBrowser(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+        stopSelf();
+    }
+
+    @OnClick(R.id.share)
+    public void shareUrl() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, url);
+        Intent shareIntent = Intent.createChooser(intent, getString(R.string.share));
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(shareIntent);
+        stopSelf();
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -109,15 +130,6 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
     public void showError(String error) {
         errorText.setText(error);
         linearLayout.setVisibility(View.VISIBLE);
-    }
-
-    @OnClick({ R.id.browser_button, R.id.main_browser_button })
-    public void openUrl() {
-        Intent intent = IntentUtil.getDefaultBrowser(this);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse(url));
-        startActivity(intent);
-        stopSelf();
     }
 
     @Override

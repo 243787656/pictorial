@@ -3,4 +3,5 @@
     <string name="missing_permission_title">Missing permission</string>
     <string name="missing_permission_message">Permission for drawing overlays not granted. Grant in order to use the app.</string>
     <string name="open_browser">Open in browser</string>
+    <string name="share">Share</string>
 </resources>
