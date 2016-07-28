@@ -1,5 +1,6 @@
 package com.bleyl.pictorial;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -12,15 +13,14 @@ import android.support.v7.app.AlertDialog;
 
 public class MainActivity extends Activity implements DialogInterface.OnClickListener {
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                setTheme(R.style.AppTheme_Dialog);
-                showPermissionDialog();
-            }
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) && !Settings.canDrawOverlays(this)) {
+            setTheme(R.style.AppTheme_Dialog);
+            showPermissionDialog();
         } else {
             Intent intent = new Intent(this, ViewerService.class);
             intent.putExtra("URL", getIntent().getDataString());
