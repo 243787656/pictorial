@@ -18,7 +18,7 @@ API_CLIENT_ID = "YOUR_CLIENT_ID_GOES_HERE"
 * Direct image URLs
 * Direct gif URLs
 * Imgur URLs
-* Gfycar URLs
+* Gfycat URLs
 
 
 License
