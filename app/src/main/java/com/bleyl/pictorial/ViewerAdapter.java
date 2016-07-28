@@ -44,7 +44,7 @@ public class ViewerAdapter extends PagerAdapter {
         @BindView(R.id.gif) GifVideoView gifVideoView;
         @BindView(R.id.info_texts) LinearLayout linearLayout;
         @BindView(R.id.error_text) TextView errorText;
-        @BindView(R.id.open_browser_text) Button browserButton;
+        @BindView(R.id.browser_button) Button browserButton;
         @BindView(R.id.image) PhotoView photoView;
         @BindView(R.id.progress_bar) ProgressBar progressBar;
         @BindView(R.id.gif_frame) FrameLayout frameLayout;

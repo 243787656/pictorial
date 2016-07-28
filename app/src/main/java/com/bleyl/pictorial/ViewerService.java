@@ -111,7 +111,7 @@ public class ViewerService extends Service implements ViewerView, ViewerAdapter.
         linearLayout.setVisibility(View.VISIBLE);
     }
 
-    @OnClick(R.id.open_browser_text)
+    @OnClick({ R.id.browser_button, R.id.main_browser_button })
     public void openUrl() {
         Intent intent = IntentUtil.getDefaultBrowser(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

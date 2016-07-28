@@ -30,7 +30,7 @@
             android:textColor="@android:color/white"/>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/open_browser_text"
+            android:id="@+id/browser_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
@@ -64,11 +64,20 @@
 
         <com.bleyl.pictorial.widgets.FractionView
             android:id="@+id/fraction_view"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
             android:layout_gravity="center_vertical"
             android:visibility="gone"
             android:layout_margin="10dp"/>
+
+        <ImageButton
+            android:id="@+id/main_browser_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_open_in_browser_white_24dp"
+            android:background="?android:selectableItemBackground"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"/>
 
     </LinearLayout>
 
