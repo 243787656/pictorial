@@ -23,11 +23,13 @@ API_CLIENT_ID = "YOUR_CLIENT_ID_GOES_HERE"
 
 ## Libraries used
 * [RxJava](https://github.com/ReactiveX/RxJava)
-* [RxJava](https://github.com/ReactiveX/RxJava)
-* * [RxJava](https://github.com/ReactiveX/RxJava)
-* * [RxJava](https://github.com/ReactiveX/RxJava)
-* * [RxJava](https://github.com/ReactiveX/RxJava)
-* * [RxJava](https://github.com/ReactiveX/RxJava)
+* [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+* [Retrofit](https://github.com/square/retrofit)
+* [Gson](https://github.com/google/gson)
+* [OkHttp](https://github.com/square/okhttp)
+* [Butter Knife](https://github.com/JakeWharton/butterknife)
+* [PhotoView](https://github.com/chrisbanes/PhotoView)
+* [Universal Image Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
 
 License
 -------
