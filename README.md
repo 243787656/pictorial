@@ -4,7 +4,7 @@ Pictorial is a universal image viewer for Android. It will open any image/gif ur
 
 The images are loaded over a dimmed background so that you are still able to see any updates to the foreground application. e.g. seeing new incoming messages. 
 
-<img src="http://i.imgur.com/fmNAfDd.png" width="226">
+<img src="http://i.imgur.com/tzlB1i0.png" width="226">
 
 ## Building
 
@@ -20,6 +20,14 @@ API_CLIENT_ID = "YOUR_CLIENT_ID_GOES_HERE"
 * Imgur URLs
 * Gfycat URLs
 
+
+## Libraries used
+* [RxJava](https://github.com/ReactiveX/RxJava)
+* [RxJava](https://github.com/ReactiveX/RxJava)
+* * [RxJava](https://github.com/ReactiveX/RxJava)
+* * [RxJava](https://github.com/ReactiveX/RxJava)
+* * [RxJava](https://github.com/ReactiveX/RxJava)
+* * [RxJava](https://github.com/ReactiveX/RxJava)
 
 License
 -------
