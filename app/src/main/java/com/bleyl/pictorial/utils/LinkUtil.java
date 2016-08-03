@@ -8,7 +8,7 @@ public class LinkUtil {
     private static final String IMGUR_DIRECT = "^(http|HTTP)(s|S)?://(www\\.)?(i\\.|m\\.)?imgur\\.com\\S+\\.(jpg|jpeg|gif|png|gifv|mp4|webm)$";
     private static final String IMGUR_ALBUM = "^(http|HTTP)(s|S)?://(www\\.)?(m\\.)?imgur\\.com/a/\\S+$";
     private static final String IMGUR_GALLERY = "^(http|HTTP)(s|S)?://(www\\.)?(m\\.)?imgur\\.com/gallery/\\S+$";
-    private static final String IMGUR_INDIRECT = "^(http|HTTP)(s|S)?://(www\\.)?(i\\.|m\\.)?imgur\\.com\\S+$";
+    private static final String IMGUR_SHORT = "^(http|HTTP)(s|S)?://(www\\.)?(i\\.|m\\.)?imgur\\.com\\S+$";
     private static final String GFYCAT = "^(http|HTTP)(s|S)?://(www\\.)?gfycat\\.com/\\S+$";
     private static final String DIRECT_GIF = "^(http|HTTP)(s|S)?://\\S+\\.gif$";
 
@@ -18,7 +18,7 @@ public class LinkUtil {
     private static final Pattern GFYCAT_ID = Pattern.compile("(?<=\\.com/)\\w+");
 
     public enum LinkType {
-        IMGUR_IMAGE,
+        IMGUR_DIRECT,
         IMGUR_ALBUM,
         IMGUR_GALLERY,
         GFYCAT,
@@ -28,13 +28,13 @@ public class LinkUtil {
 
     public static LinkType getLinkType(String url) {
         if (url.matches(IMGUR_DIRECT)) {
-            return LinkType.IMGUR_IMAGE;
+            return LinkType.IMGUR_DIRECT;
         } else if (url.matches(IMGUR_ALBUM)) {
             return LinkType.IMGUR_ALBUM;
         } else if (url.matches(IMGUR_GALLERY)) {
             return LinkType.IMGUR_GALLERY;
-        } else if (url.matches(IMGUR_INDIRECT)) {
-            return LinkType.IMGUR_IMAGE;
+        } else if (url.matches(IMGUR_SHORT)) {
+            return LinkType.IMGUR_DIRECT;
         } else if (url.matches(GFYCAT)) {
             return LinkType.GFYCAT;
         } else if (url.matches(DIRECT_GIF)) {

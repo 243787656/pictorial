@@ -38,7 +38,7 @@ public class ViewerPresenter {
         switch (LinkUtil.getLinkType(url)) {
             case IMGUR_GALLERY: loadImgurGallery(url); break;
             case IMGUR_ALBUM: loadImgurAlbum(url); break;
-            case IMGUR_IMAGE: loadImgurImage(url); break;
+            case IMGUR_DIRECT: loadImgurImage(url); break;
             case GFYCAT: loadGfycat(url); break;
             case DIRECT_GIF: loadGif(url); break;
             case DIRECT_IMAGE: loadImage(url); break;
