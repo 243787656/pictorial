@@ -1,8 +1,8 @@
 # Pictorial
 
-Pictorial is a universal image viewer for Android. It will open any image/gif url and load it directly instead of having to making you view it in the browser. It displays the image in an overlay by using a service so that the current foreground application is not paused. 
+Pictorial is a universal image viewer for Android. It will open any image/gif url and load it directly instead of having to making you view it in the browser. It displays the image in an overlay by using a service so that the current foreground application is not paused.
 
-The images are loaded over a dimmed background so that you are still able to see any updates to the foreground application. e.g. seeing new incoming messages. 
+The images are loaded over a dimmed background so that you are still able to see any updates to the foreground application. e.g. seeing new incoming messages.
 
 <img src="http://i.imgur.com/tzlB1i0.png" width="226">
 
@@ -21,7 +21,7 @@ API_CLIENT_ID = "YOUR_CLIENT_ID_GOES_HERE"
 * Gfycat URLs
 
 
-## Libraries used
+## Libraries
 * [RxJava](https://github.com/ReactiveX/RxJava)
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 * [Retrofit](https://github.com/square/retrofit)
@@ -30,6 +30,10 @@ API_CLIENT_ID = "YOUR_CLIENT_ID_GOES_HERE"
 * [Butter Knife](https://github.com/JakeWharton/butterknife)
 * [PhotoView](https://github.com/chrisbanes/PhotoView)
 * [Universal Image Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
+
+## Libraries for test
+* [Hamcrest](https://github.com/hamcrest/JavaHamcrest)
+
 
 License
 -------
