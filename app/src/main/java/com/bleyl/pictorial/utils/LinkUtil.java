@@ -5,12 +5,12 @@ import java.util.regex.Pattern;
 
 public class LinkUtil {
 
-    private static final String IMGUR_DIRECT = "^(http|HTTP)(s|S)?://(www\\.)?(i\\.|m\\.)?imgur\\.com\\S+\\.(jpg|jpeg|gif|png|gifv|mp4|webm)$";
+    private static final String IMGUR_DIRECT = "^(http|HTTP)(s|S)?://(www\\.)?(i\\.|m\\.)?imgur\\.com\\S+\\.(jpg|jpeg|gif|png|gifv|mp4|webm)(\\?.*)?$";
     private static final String IMGUR_ALBUM = "^(http|HTTP)(s|S)?://(www\\.)?(m\\.)?imgur\\.com/a/\\S+$";
     private static final String IMGUR_GALLERY = "^(http|HTTP)(s|S)?://(www\\.)?(m\\.)?imgur\\.com/gallery/\\S+$";
     private static final String IMGUR_SHORT = "^(http|HTTP)(s|S)?://(www\\.)?(i\\.|m\\.)?imgur\\.com\\S+$";
     private static final String GFYCAT = "^(http|HTTP)(s|S)?://(www\\.)?gfycat\\.com/\\S+$";
-    private static final String DIRECT_GIF = "^(http|HTTP)(s|S)?://\\S+\\.gif$";
+    private static final String DIRECT_GIF = "^(http|HTTP)(s|S)?://\\S+\\.gif(\\?.*)?$";
 
     private static final Pattern IMGUR_ID = Pattern.compile("(?<=\\.com/)\\w+");
     private static final Pattern IMGUR_GALLERY_ID = Pattern.compile("(?<=/gallery/)(?!=/)\\w+");
