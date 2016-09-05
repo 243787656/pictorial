@@ -8,7 +8,7 @@ The images are loaded over a dimmed background so that you are still able to see
 
 ## Building
 
-As the Imgur API is used, you will have to <a href="https://imgur.com/account/settings/apps">register a new Imgur application</a> to obtain your own `CLIENT_ID`. Once you have your `CLIENT_ID` you need to add it to your `gradle.properties` file like so:
+As the Imgur API is used, you will have to <a href="https://imgur.com/account/settings/apps">register a new Imgur application</a> to obtain your own `CLIENT_ID`. Once you have your `CLIENT_ID` you need to add it to your `gradle.properties` file.
 
 ```gradle
 API_CLIENT_ID = "YOUR_CLIENT_ID_GOES_HERE"
@@ -19,20 +19,6 @@ API_CLIENT_ID = "YOUR_CLIENT_ID_GOES_HERE"
 * Direct gif URLs
 * Imgur URLs
 * Gfycat URLs
-
-
-## Libraries
-* [RxJava](https://github.com/ReactiveX/RxJava)
-* [RxAndroid](https://github.com/ReactiveX/RxAndroid)
-* [Retrofit](https://github.com/square/retrofit)
-* [Gson](https://github.com/google/gson)
-* [OkHttp](https://github.com/square/okhttp)
-* [Butter Knife](https://github.com/JakeWharton/butterknife)
-* [PhotoView](https://github.com/chrisbanes/PhotoView)
-* [Universal Image Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
-
-## Libraries for test
-* [Hamcrest](https://github.com/hamcrest/JavaHamcrest)
 
 
 License
