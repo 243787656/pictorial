@@ -1,6 +1,6 @@
-package com.bleyl.pictorial.models.gfycat.responses;
+package com.bleyl.pictorial.api.gfycat.responses;
 
-import com.bleyl.pictorial.models.gfycat.GfyItem;
+import com.bleyl.pictorial.models.GfyItem;
 import com.google.gson.annotations.SerializedName;
 
 public class MetadataResponse {

@@ -1,9 +1,9 @@
-package com.bleyl.pictorial.models.imgur;
+package com.bleyl.pictorial.api.imgur;
 
 import com.bleyl.pictorial.BuildConfig;
-import com.bleyl.pictorial.models.imgur.responses.AlbumResponse;
-import com.bleyl.pictorial.models.imgur.responses.GalleryResponse;
-import com.bleyl.pictorial.models.imgur.responses.ImageResponse;
+import com.bleyl.pictorial.api.imgur.responses.AlbumResponse;
+import com.bleyl.pictorial.api.imgur.responses.GalleryResponse;
+import com.bleyl.pictorial.api.imgur.responses.ImageResponse;
 
 import java.io.IOException;
 

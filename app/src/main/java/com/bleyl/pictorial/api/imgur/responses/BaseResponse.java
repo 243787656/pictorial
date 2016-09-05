@@ -1,4 +1,4 @@
-package com.bleyl.pictorial.models.imgur.responses;
+package com.bleyl.pictorial.api.imgur.responses;
 
 public class BaseResponse {
 

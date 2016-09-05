@@ -1,4 +1,4 @@
-package com.bleyl.pictorial.models.imgur;
+package com.bleyl.pictorial.models;
 
 import com.google.gson.annotations.SerializedName;
 

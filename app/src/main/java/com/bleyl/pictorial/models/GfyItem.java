@@ -1,4 +1,4 @@
-package com.bleyl.pictorial.models.gfycat;
+package com.bleyl.pictorial.models;
 
 import com.bleyl.pictorial.models.Image;
 import com.google.gson.annotations.SerializedName;

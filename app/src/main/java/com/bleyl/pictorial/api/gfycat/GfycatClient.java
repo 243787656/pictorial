@@ -1,6 +1,7 @@
-package com.bleyl.pictorial.models.gfycat;
+package com.bleyl.pictorial.api.gfycat;
 
-import com.bleyl.pictorial.models.gfycat.responses.MetadataResponse;
+import com.bleyl.pictorial.api.gfycat.responses.MetadataResponse;
+import com.bleyl.pictorial.models.GfyItem;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;

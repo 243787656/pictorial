@@ -1,15 +1,15 @@
 package com.bleyl.pictorial;
 
-import com.bleyl.pictorial.models.gfycat.GfycatClient;
-import com.bleyl.pictorial.models.imgur.ImgurClient;
+import com.bleyl.pictorial.api.gfycat.GfycatClient;
+import com.bleyl.pictorial.api.imgur.ImgurClient;
 import com.bleyl.pictorial.utils.LinkUtil;
 import com.bleyl.pictorial.models.DirectImage;
 import com.bleyl.pictorial.models.Image;
-import com.bleyl.pictorial.models.gfycat.GfyItem;
-import com.bleyl.pictorial.models.gfycat.responses.MetadataResponse;
-import com.bleyl.pictorial.models.imgur.responses.AlbumResponse;
-import com.bleyl.pictorial.models.imgur.responses.GalleryResponse;
-import com.bleyl.pictorial.models.imgur.responses.ImageResponse;
+import com.bleyl.pictorial.models.GfyItem;
+import com.bleyl.pictorial.api.gfycat.responses.MetadataResponse;
+import com.bleyl.pictorial.api.imgur.responses.AlbumResponse;
+import com.bleyl.pictorial.api.imgur.responses.GalleryResponse;
+import com.bleyl.pictorial.api.imgur.responses.ImageResponse;
 
 import java.util.ArrayList;
 import java.util.List;
