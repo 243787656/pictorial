@@ -11,13 +11,11 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Single;
-import rx.schedulers.Schedulers;
 
 public class ImgurClient {
 
@@ -26,19 +24,19 @@ public class ImgurClient {
     public interface ImgurService {
 
         @GET("3/image/{id}")
-        Single<ImageResponse> getImageDetails(@Path("id") String imageId);
+        Call<ImageResponse> getImageDetails(@Path("id") String imageId);
 
         @GET("3/album/{id}")
-        Single<AlbumResponse> getAlbumImages(@Path("id") String albumId);
+        Call<AlbumResponse> getAlbumImages(@Path("id") String albumId);
 
         @GET("3/gallery/{id}")
-        Single<GalleryResponse> getGalleryDetails(@Path("id") String galleryId);
+        Call<GalleryResponse> getGalleryDetails(@Path("id") String galleryId);
 
         @GET("3/gallery/image/{id}")
-        Single<ImageResponse> getGalleryImage(@Path("id") String imageId);
+        Call<ImageResponse> getGalleryImage(@Path("id") String imageId);
 
         @GET("3/gallery/album/{id}")
-        Single<AlbumResponse> getGalleryAlbum(@Path("id") String albumId);
+        Call<AlbumResponse> getGalleryAlbum(@Path("id") String albumId);
     }
 
     public static ImgurService getService() {
@@ -52,7 +50,6 @@ public class ImgurClient {
         return new Retrofit.Builder()
                 .baseUrl("https://api.imgur.com/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(getClient())
                 .build()
                 .create(ImgurService.class);
